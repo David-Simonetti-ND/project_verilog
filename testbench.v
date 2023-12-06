@@ -1,4 +1,4 @@
-module AES_16_encryption_test;
+module 8_bit_rsa_testbench;
 
   reg  clk  ;
   reg  rst  ;

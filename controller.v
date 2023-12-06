@@ -1,6 +1,6 @@
 module controller
 (
-  //input wire [7:0] data      ,
+  input wire clk                   ,
   input wire input_data_ready      ,
   input wire is_multiplication_done,
   output reg initialize            ,
@@ -15,7 +15,8 @@ module controller
     reg [2:0] current_state = WAITING;
     reg [2:0] next_state;
 
-    always @* begin
+    always @(posedge clk)
+    begin
         initialize = 0;
         en_multiply = 0;
         en_modulo = 0;
