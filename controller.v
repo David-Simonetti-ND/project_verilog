@@ -10,7 +10,7 @@ module controller
 );
 
     // FSM states
-    localparam integer WAITING=0, INITIALIZE=1, MULTIPLY=2, MODULO=3, DONE=4;
+    localparam integer WAITING=3'd0, INITIALIZE=3'd1, MULTIPLY=3'd2, MODULO=3'd3, DONE=3'd4;
 
     reg [2:0] current_state = WAITING;
     reg [2:0] next_state;
