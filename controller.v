@@ -26,7 +26,6 @@ module controller
     end
 
     always @(*) begin
-        $display("Current state:", current_state);
         initialize = 0;
         en_multiply = 0;
         en_modulo = 0;

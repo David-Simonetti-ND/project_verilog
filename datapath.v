@@ -17,7 +17,6 @@ module datapath
     reg [15:0] iterations_left;
     always @(posedge clk) 
     begin
-        $display("Iters left", iterations_left);
         if (initialize) begin
             frozen_data = data;
             arithmetic_temp = frozen_data;

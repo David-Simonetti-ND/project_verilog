@@ -34,18 +34,20 @@ module rsa_testbenc;
     always
       #10 clk <= !clk;
 
+    integer i;
     initial begin
-      data = 8'd65;
-      input_data_ready = 1'd0;
-      $display("Starting");
-      input_data_ready = 1'd1;
-      #20
-      input_data_ready = 1'd0;
-      while (done == 0) begin
-        #10 testing = 1;
+      $display("Starting simulation");
+      for (i = 0; i <= 255; i = i + 1) begin
+        data = i;
+        input_data_ready = 1'd1;
+        #20
+        input_data_ready = 1'd0;
+        while (done == 0) begin
+          #10 testing = 1;
+        end
+        #50
+        $display("Input value: ", data, " Encoded value: ", output_data, " Expected value: X");
       end
-      #50
-      $display("Encoded value: ", output_data);
       $finish;
     end
 
