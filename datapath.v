@@ -17,21 +17,19 @@ module datapath
     reg [15:0] iterations_left;
     always @(posedge clk) 
     begin
-        if (initialize) {
+        if (initialize) begin
             frozen_data = data;
             arithmetic_temp = frozen_data;
             iterations_left = e;
-        }
-        if (en_multiply) {
+        end
+        if (en_multiply) begin
             arithmetic_temp = arithmetic_temp * frozen_data;
             iterations_left = iterations_left - 1;
-        }
-        if (en_modulo) {
+        end
+        if (en_modulo) 
             arithmetic_temp = arithmetic_temp % n;
-        }
-        if (done) {
+        if (done) 
             output_data = arithmetic_temp;
-        }
         is_multiplication_done = (iterations_left == 0);
     end
 

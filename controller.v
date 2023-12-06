@@ -15,37 +15,42 @@ module controller
     reg [2:0] current_state = WAITING;
     reg [2:0] next_state;
 
-    always @(posedge clk)
-    begin
+    always @(posedge clk) begin
+		current_state <= next_state;
+    end
+
+    always @* begin
         initialize = 0;
         en_multiply = 0;
         en_modulo = 0;
         done = 0;
         case(current_state)
-            WAITING:
-                if (input_data_ready) {
-                    next_state = INITIALIZE;
-                }
-                else {
+            WAITING: begin
+                if (input_data_ready) 
+                    next_state <= 3'd0;
+                else 
                     next_state = WAITING;
-                }
-            INITIALIZE:
+            end
+            INITIALIZE: begin
                 initialize = 1;
                 next_state = MULTIPLY;
-            MULTIPLY:
-                if (is_multiplication_done) {
+            end
+            MULTIPLY: begin
+                if (is_multiplication_done) 
                     next_state = DONE;
-                }
-                else {
+                else begin
                     en_multiply = 1;
                     next_state = MODULO;
-                }
-            MODULO:
+                end
+            end
+            MODULO: begin
                 en_modulo = 1;
                 next_state = MULTIPLY;
-            DONE:
+            end
+            DONE: begin
                 done = 1;
                 next_state = INITIALIZE;
+            end
         endcase
         current_state = next_state;
     end
