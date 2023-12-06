@@ -1,4 +1,4 @@
-module encryption
+module datapath
 (
   input wire [7:0] data ,
   input wire [7:0] key  ,
