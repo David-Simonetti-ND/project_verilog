@@ -7,7 +7,7 @@ module datapath
   input wire en_modulo             ,
   input wire done                  ,
   output reg is_multiplication_done,
-  output reg [12:0] output_data
+  output reg [15:0] output_data
 );
 
     reg [15:0] n = 3233;
@@ -17,6 +17,7 @@ module datapath
     reg [15:0] iterations_left;
     always @(posedge clk) 
     begin
+        $display("Iters left", iterations_left);
         if (initialize) begin
             frozen_data = data;
             arithmetic_temp = frozen_data;
@@ -30,7 +31,7 @@ module datapath
             arithmetic_temp = arithmetic_temp % n;
         if (done) 
             output_data = arithmetic_temp;
-        is_multiplication_done = (iterations_left == 0);
+        is_multiplication_done = (iterations_left == 1);
     end
 
 endmodule
