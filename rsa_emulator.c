@@ -5,11 +5,11 @@ typedef unsigned short uint16;
 // size of input data
 typedef unsigned char byte;
 
-// hardcoded public key parameters
-const uint16 n = 3233;
-const uint16 e = 17;
-// hardcoded private key parameter
-const uint16 d = 413;
+// public key parameters
+uint16 n = 3233;
+uint16 e = 17;
+// private key parameter
+uint16 d = 413;
 
 // encrypt input byte
 uint16 encrypt(byte input_data) {
@@ -104,8 +104,8 @@ uint16 mock_fsm(byte input_data) {
 
 int main() {
     // check that the encryption is correct for all possible input values (0-255)
-    for (byte i = 0; i < 255; i++) {
-        uint16 encrypt_result = encrypt(i);
+    for (int i = 0; i <= 255; i++) {
+        uint16 encrypt_result = encrypt((byte)i);
         byte decrypt_result = decrypt(encrypt_result);
         printf("%d %d %d\n", i, encrypt_result, decrypt_result);
         if (decrypt_result != i) {
@@ -114,8 +114,22 @@ int main() {
         }
     }
     // check that the encryption is correct using the mocked up fsm
-    for (byte i = 0; i < 255; i++) {
-        uint16 encrypt_result = mock_fsm(i);
+    for (int i = 0; i <= 255; i++) {
+        uint16 encrypt_result = mock_fsm((byte)i);
+        byte decrypt_result = decrypt(encrypt_result);
+        printf("%d %d %d\n", i, encrypt_result, decrypt_result);
+        if (decrypt_result != i) {
+            printf("Error in FSM");
+            return 1;
+        }
+    }
+
+    // change n to 15, e to 3, d to 3
+    n = 15;
+    e = 3;
+    d = 3;
+    for (int i = 0; i < 15; i++) {
+        uint16 encrypt_result = mock_fsm((byte)i);
         byte decrypt_result = decrypt(encrypt_result);
         printf("%d %d %d\n", i, encrypt_result, decrypt_result);
         if (decrypt_result != i) {

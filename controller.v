@@ -1,16 +1,19 @@
 module controller
 (
   input wire clk                   ,
-  input wire input_data_ready      ,
+  input wire [2:0] input_data_type ,
   input wire is_multiplication_done,
   output reg initialize            ,
   output reg en_multiply           ,
   output reg en_modulo             ,
-  output reg done
+  output reg done                  ,
+  output reg update_e              ,
+  output reg update_n
 );
 
     // FSM states
-    localparam integer WAITING=3'd0, INITIALIZE=3'd1, MULTIPLY=3'd2, MODULO=3'd3, DONE=3'd4;
+    localparam integer WAITING=3'd0, INITIALIZE=3'd1, MULTIPLY=3'd2, MODULO=3'd3, DONE=3'd4, UPDATE_E=3'd5, UPDATE_N=3'd6;
+    localparam integer NONE=3'd0, DATA_INPUT=3'd1, E_INPUT=3'd2, N_INPUT=3'd3;
 
     reg [2:0] current_state = WAITING;
     reg [2:0] next_state = WAITING;
@@ -30,13 +33,19 @@ module controller
         en_multiply = 0;
         en_modulo = 0;
         done = 0;
+        update_e = 0;
+        update_n = 0;
         next_state = WAITING;
         case(current_state)
             WAITING: begin
-                if (input_data_ready) 
-                    next_state = INITIALIZE;
-                else 
+                if (input_data_type == NONE) 
                     next_state = WAITING;
+                else if(input_data_type == DATA_INPUT)
+                    next_state = INITIALIZE;
+                else if(input_data_type == E_INPUT)
+                    next_state = UPDATE_E;
+                else if(input_data_type == N_INPUT)
+                    next_state = UPDATE_N;
             end
             INITIALIZE: begin
                 initialize = 1;
@@ -56,7 +65,15 @@ module controller
             end
             DONE: begin
                 done = 1;
-                next_state = INITIALIZE;
+                next_state = WAITING;
+            end
+            UPDATE_E: begin
+                update_e = 1;
+                next_state = WAITING;
+            end
+            UPDATE_N: begin
+                update_n = 1;
+                next_state = WAITING;
             end
         endcase
     end
