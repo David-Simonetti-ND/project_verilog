@@ -3,6 +3,7 @@ module controller
   input wire clk                   ,
   input wire [2:0] input_data_type ,
   input wire is_multiplication_done,
+  input wire is_init_done          ,
   output reg initialize            ,
   output reg en_multiply           ,
   output reg en_modulo             ,
@@ -49,7 +50,10 @@ module controller
             end
             INITIALIZE: begin
                 initialize = 1;
-                next_state = MULTIPLY;
+                if (is_init_done)
+                    next_state = MULTIPLY;
+                else
+                    next_state = INITIALIZE;
             end
             MULTIPLY: begin
                 if (is_multiplication_done) 

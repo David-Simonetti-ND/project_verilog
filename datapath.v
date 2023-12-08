@@ -9,6 +9,7 @@ module datapath
   input wire update_e              ,
   input wire update_n              ,
   output reg is_multiplication_done,
+  output reg is_init_done          ,
   output reg [15:0] output_data
 );
 
@@ -22,7 +23,7 @@ module datapath
         if (initialize) begin
             frozen_data <= data[7:0];
             arithmetic_temp <= data[7:0];
-            iterations_left = e - 1'd1;
+            iterations_left <= e;
         end
         if (en_multiply) begin
             arithmetic_temp <= arithmetic_temp * frozen_data;
@@ -36,7 +37,8 @@ module datapath
             e <= data;
         if (update_n) 
             n <= data;
-        is_multiplication_done = (iterations_left == 0);
+        is_multiplication_done = (iterations_left == 1);
+        is_init_done = (iterations_left == e);
     end
 
 endmodule
