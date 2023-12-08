@@ -41,6 +41,8 @@ module rsa_testbenc;
       #10 clk <= !clk;
 
     integer i;
+    integer j;
+    reg [31:0] arithmetic_temp;
     initial begin
       $display("Starting simulation");
       for (i = 0; i <= 255; i = i + 1) begin
@@ -53,7 +55,11 @@ module rsa_testbenc;
           #10 testing = 1;
         end
         #20
-        $display("Input value: ", data, " Encoded value: ", output_data, " Expected value: X");
+        arithmetic_temp = data;
+        for (j = 1; j < 'd17; j = j + 1) begin
+          arithmetic_temp = (arithmetic_temp * data) % 15'd3233;
+        end
+        $display("Input value: ", data, " Encoded value: ", output_data, " Expected value: ", arithmetic_temp);
       end
       $display("Changing the values of e and n to 3 and 15 respectively");
       data = 13'd3;
@@ -78,7 +84,11 @@ module rsa_testbenc;
           #10 testing = 1;
         end
         #20
-        $display("Input value: ", data, " Encoded value: ", output_data, " Expected value: X");
+        arithmetic_temp = data;
+        for (j = 1; j < 'd3; j = j + 1) begin
+          arithmetic_temp = (arithmetic_temp * data) % 15'd15;
+        end
+        $display("Input value: ", data, " Encoded value: ", output_data, " Expected value: ", arithmetic_temp);
       end
       $finish;
     end

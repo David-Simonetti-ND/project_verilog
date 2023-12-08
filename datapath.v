@@ -20,22 +20,22 @@ module datapath
     always @(posedge clk) 
     begin
         if (initialize) begin
-            frozen_data = data[7:0];
-            arithmetic_temp = frozen_data;
+            frozen_data <= data[7:0];
+            arithmetic_temp <= data[7:0];
             iterations_left = e - 1'd1;
         end
         if (en_multiply) begin
-            arithmetic_temp = arithmetic_temp * frozen_data;
-            iterations_left = iterations_left - 1;
+            arithmetic_temp <= arithmetic_temp * frozen_data;
+            iterations_left <= iterations_left - 1;
         end
         if (en_modulo) 
-            arithmetic_temp = arithmetic_temp % n;
+            arithmetic_temp <= arithmetic_temp % n;
         if (done) 
-            output_data = arithmetic_temp;
+            output_data <= arithmetic_temp;
         if (update_e) 
-            e = data;
+            e <= data;
         if (update_n) 
-            n = data;
+            n <= data;
         is_multiplication_done = (iterations_left == 0);
     end
 
