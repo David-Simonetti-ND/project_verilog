@@ -6,8 +6,6 @@ module datapath
   input wire en_multiply           ,
   input wire en_modulo             ,
   input wire done                  ,
-  input wire update_e              ,
-  input wire update_n              ,
   output reg is_multiplication_done,
   output reg is_init_done          ,
   output reg [15:0] output_data
@@ -17,7 +15,7 @@ module datapath
     reg [31:0] e = 17;
     reg [7:0] frozen_data;
     reg [31:0] arithmetic_temp;
-    reg [15:0] iterations_left;
+    reg [31:0] iterations_left;
     always @(posedge clk) 
     begin
         if (initialize) begin
@@ -33,10 +31,6 @@ module datapath
             arithmetic_temp <= arithmetic_temp % n;
         if (done) 
             output_data <= arithmetic_temp[15:0];
-        if (update_e) 
-            e <= {3'b0, data};
-        if (update_n) 
-            n <= {3'b0, data};
         is_multiplication_done <= (iterations_left == 1);
         is_init_done <= (iterations_left == e);
     end

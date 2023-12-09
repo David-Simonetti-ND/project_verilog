@@ -8,8 +8,6 @@ module rsa_testbenc;
     wire en_multiply;
     wire en_modulo;
     wire done;
-    wire update_e;
-    wire update_n;
     wire [15:0] output_data;
     reg testing;
 
@@ -21,9 +19,7 @@ module rsa_testbenc;
       .initialize(initialize),
       .en_multiply(en_multiply),
       .en_modulo(en_modulo),
-      .done(done),
-      .update_e(update_e),
-      .update_n(update_n)
+      .done(done)
     );
 
     datapath datapath_inst( 
@@ -33,8 +29,6 @@ module rsa_testbenc;
       .en_multiply(en_multiply),
       .en_modulo(en_modulo),
       .done(done),
-      .update_e(update_e),
-      .update_n(update_n),
       .is_multiplication_done(is_multiplication_done),
       .is_init_done(is_init_done),
       .output_data(output_data)
