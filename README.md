@@ -12,21 +12,19 @@ Goal: Our project performs an RSA encryption of an 8-byte input.
 
 1) Generate the Public Key
 
-There are two elements of the public key:
     - n: the product of two prime numbers
         - We used p = 53 and q = 61 where n = p * q = 3233.
-    - e
-        - To find e...
-            - Compute the Carmichael's Totient Function of the product as λ(n) = lcm(p − 1, q − 1).
-                - λ(n) = lcm(p − 1, q − 1) = λ(3233) = lcm(53 − 1, 61 − 1) = 780
-            - Choose any number 2 < e < 780 that is coprime to 780.
-                - We used e = 17.
+    - e: to find e...
+        - Compute the Carmichael's Totient Function of the product as λ(n) = lcm(p − 1, q − 1).
+            - λ(n) = lcm(p − 1, q − 1) = λ(3233) = lcm(53 − 1, 61 − 1) = 780
+        - Choose any number 2 < e < 780 that is coprime to 780.
+            - We used e = 17.
 
 2) Generate the Private Key
-    - d: the private key is used to decrypt the encrypted data
-        - To find d...
-            - Compute the modular multiplicative inverse of e (mod λ(n)) = 17 (mod λ(3233)).
-            - d = 413 because 1 = (17 * 413) mod 780
+
+    - d: to find d...
+        - Compute the modular multiplicative inverse of e (mod λ(n)) = 17 (mod λ(3233)).
+        - d = 413 because 1 = (17 * 413) mod 780
 
 3) Encryption Function
 
