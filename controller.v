@@ -3,6 +3,7 @@ module controller
   input wire clk                   ,
   input wire [2:0] input_data_type ,
   input wire is_multiplication_done,
+  input wire is_init_done          ,
   output reg initialize            ,
   output reg en_multiply           ,
   output reg en_modulo             ,
@@ -12,8 +13,8 @@ module controller
 );
 
     // FSM states
-    localparam integer WAITING=3'd0, INITIALIZE=3'd1, MULTIPLY=3'd2, MODULO=3'd3, DONE=3'd4, UPDATE_E=3'd5, UPDATE_N=3'd6;
-    localparam integer NONE=3'd0, DATA_INPUT=3'd1, E_INPUT=3'd2, N_INPUT=3'd3;
+    reg[2:0] WAITING=3'd0, INITIALIZE=3'd1, MULTIPLY=3'd2, MODULO=3'd3, DONE=3'd4, UPDATE_E=3'd5, UPDATE_N=3'd6;
+    reg[2:0] NONE=3'd0, DATA_INPUT=3'd1, E_INPUT=3'd2, N_INPUT=3'd3;
 
     reg [2:0] current_state = WAITING;
     reg [2:0] next_state = WAITING;
@@ -49,7 +50,10 @@ module controller
             end
             INITIALIZE: begin
                 initialize = 1;
-                next_state = MULTIPLY;
+                if (is_init_done)
+                    next_state = MULTIPLY;
+                else
+                    next_state = INITIALIZE;
             end
             MULTIPLY: begin
                 if (is_multiplication_done) 
