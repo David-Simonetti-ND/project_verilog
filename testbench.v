@@ -3,6 +3,7 @@ module rsa_testbenc;
     reg [12:0] data;
     reg [2:0] input_data_type;
     wire is_multiplication_done;
+    wire is_init_done;
     wire initialize;
     wire en_multiply;
     wire en_modulo;
@@ -16,6 +17,7 @@ module rsa_testbenc;
       .clk(clk),
       .input_data_type(input_data_type),
       .is_multiplication_done(is_multiplication_done),
+      .is_init_done(is_init_done),
       .initialize(initialize),
       .en_multiply(en_multiply),
       .en_modulo(en_modulo),
@@ -34,6 +36,7 @@ module rsa_testbenc;
       .update_e(update_e),
       .update_n(update_n),
       .is_multiplication_done(is_multiplication_done),
+      .is_init_done(is_init_done),
       .output_data(output_data)
     );
 
