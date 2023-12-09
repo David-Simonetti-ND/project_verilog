@@ -1,6 +1,6 @@
 module datapath
 (
-  input wire [12:0] data           ,
+  input wire [7:0] data            ,
   input wire clk                   ,
   input wire initialize            ,
   input wire en_multiply           ,
@@ -13,8 +13,8 @@ module datapath
   output reg [15:0] output_data
 );
 
-    reg [15:0] n = 3233;
-    reg [15:0] e = 17;
+    reg [31:0] n = 3233;
+    reg [31:0] e = 17;
     reg [7:0] frozen_data;
     reg [31:0] arithmetic_temp;
     reg [15:0] iterations_left;
@@ -30,15 +30,15 @@ module datapath
             iterations_left <= iterations_left - 1;
         end
         if (en_modulo) 
-            arithmetic_temp <= arithmetic_temp % {16'b0, n};
+            arithmetic_temp <= arithmetic_temp % n;
         if (done) 
             output_data <= arithmetic_temp[15:0];
         if (update_e) 
             e <= {3'b0, data};
         if (update_n) 
             n <= {3'b0, data};
-        is_multiplication_done = (iterations_left == 1);
-        is_init_done = (iterations_left == e);
+        is_multiplication_done <= (iterations_left == 1);
+        is_init_done <= (iterations_left == e);
     end
 
 endmodule
