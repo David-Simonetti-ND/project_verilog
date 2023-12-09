@@ -16,8 +16,8 @@ module controller
     reg[2:0] WAITING=3'd0, INITIALIZE=3'd1, MULTIPLY=3'd2, MODULO=3'd3, DONE=3'd4, UPDATE_E=3'd5, UPDATE_N=3'd6;
     reg[2:0] NONE=3'd0, DATA_INPUT=3'd1, E_INPUT=3'd2, N_INPUT=3'd3;
 
-    reg [2:0] current_state = WAITING;
-    reg [2:0] next_state = WAITING;
+    reg [2:0] current_state = 3'd0;
+    reg [2:0] next_state = 3'd0;
     initial begin
         initialize = 1'd0;
         en_multiply = 1'd0;
